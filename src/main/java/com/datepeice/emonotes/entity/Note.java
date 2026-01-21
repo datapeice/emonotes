@@ -22,6 +22,7 @@ public class Note {
     @JsonIgnore
     private User user;
     private String title;
+    @Column(columnDefinition = "TEXT")
     private String content;
 
     @CreatedDate
