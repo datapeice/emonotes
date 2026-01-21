@@ -3,7 +3,10 @@ package com.datepeice.emonotes.controller;
 import com.datepeice.emonotes.dto.NoteBody;
 import com.datepeice.emonotes.entity.Note;
 import com.datepeice.emonotes.entity.User;
+import com.datepeice.emonotes.exception.AccessDeniedException;
+import com.datepeice.emonotes.exception.ResourceNotFoundException;
 import com.datepeice.emonotes.repository.NoteRepository;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,12 +21,13 @@ public class NoteController {
     private final NoteRepository noteRepository;
 
     @PostMapping("/create")
-    public void createNote(@RequestBody NoteBody noteBody, @AuthenticationPrincipal User user) {
+    public ResponseEntity<Note> createNote(@RequestBody NoteBody noteBody, @AuthenticationPrincipal User user) {
         var note = new Note();
         note.setTitle(noteBody.getTitle());
         note.setContent(noteBody.getContent());
         note.setUser(user);
-        noteRepository.save(note);
+        Note savedNote = noteRepository.save(note);
+        return ResponseEntity.ok(savedNote);
     }
 
     @GetMapping("/all")
@@ -32,21 +36,23 @@ public class NoteController {
     }
 
     @PutMapping("/update/{id}")
-    public void updateNote(@PathVariable Long id, @RequestBody NoteBody noteBody, @AuthenticationPrincipal User user) throws Exception {
-        var note = noteRepository.findById(id).orElseThrow(() -> new Exception("Note not found"));
+    public ResponseEntity updateNote(@PathVariable Long id, @RequestBody NoteBody noteBody, @AuthenticationPrincipal User user) throws Exception {
+        var note = noteRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Note not found"));
         if (!note.getUser().getId().equals(user.getId())) {
-            throw new Exception("You are not authorized to update this note");
+            throw new AccessDeniedException("You are not authorized to update this note");
         }
         note.setTitle(noteBody.getTitle());
         note.setContent(noteBody.getContent());
+
         noteRepository.save(note);
+        return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/delete/{id}")
     public void deleteNote(@PathVariable Long id, @AuthenticationPrincipal User user) throws Exception {
-        var note = noteRepository.findById(id).orElseThrow(() -> new Exception("Note not found"));
+        var note = noteRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Note not found"));
         if (!note.getUser().getId().equals(user.getId())) {
-            throw new Exception("You are not authorized to delete this note");
+            throw new AccessDeniedException("You are not authorized to delete this note");
         }
         noteRepository.delete(note);
     }

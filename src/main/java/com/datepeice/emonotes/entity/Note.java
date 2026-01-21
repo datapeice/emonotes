@@ -4,10 +4,13 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.ToString;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity
 @Table(name="notes")
 @Data
+@EntityListeners(AuditingEntityListener.class)
 public class Note {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,4 +24,7 @@ public class Note {
     private String title;
     private String content;
 
+    @CreatedDate
+    @Column(name = "created_at", updatable = false)
+    private java.time.LocalDateTime createdAt;
 }
