@@ -45,26 +45,40 @@ public class AuthController {
     private final MfaService mfaService;
 
     @PostMapping("/signup")
-    public ResponseEntity<?> signup(@Valid @RequestBody SignUpBody body) throws Exception {
+    public ResponseEntity<?> signup(@Valid @RequestBody SignUpBody body) {
         if (userRepository.existsByUsername(body.getUsername())) {
-            throw new Exception("Username already exists");
+            return ResponseEntity.badRequest().body("Username already exists");
         }
 
-        var user = new User();
-        user.setUsername(body.getUsername());
-        user.setPassword(bCryptPasswordEncoder.encode(body.getPassword()));
+        String secret = mfaService.generateSecret();
+        String qrUrl = mfaService.getQrCodeUrl(secret, body.getUsername());
+
+        return ResponseEntity.ok(Map.of(
+                "secret", secret,
+                "qrCodeUrl", qrUrl,
+                "message", "Scan QR and verify"
+        ));
+    }
+    @PostMapping("/signup/verify")
+    public ResponseEntity<?> verifyAndCreate(@RequestBody Map<String, String> payload) {
+        String username = payload.get("username");
+        String password = payload.get("password");
+        String secret = payload.get("secret");
+        int code = Integer.parseInt(payload.get("mfaCode"));
+
+        if (!mfaService.verifyCode(secret, code)) {
+            return ResponseEntity.status(403).body("Invalid MFA code");
+        }
+
+        User user = new User();
+        user.setUsername(username);
+        user.setPassword(bCryptPasswordEncoder.encode(password));
+        user.setMfaSecret(secret);
         user.setRoles("ROLE_USER");
 
-        String secret = mfaService.generateSecret();
-        user.setMfaSecret(secret);
-
         userRepository.save(user);
-        return ResponseEntity.ok(Map.of(
-                "username", user.getUsername(),
-                "secretKey", secret,
-                "qrCodeUrl", mfaService.getQrCodeUrl(secret, user.getUsername()),
-                "instruction", "Если не можете отсканировать QR-код, введите ключ вручную в приложении"
-        ));
+
+        return ResponseEntity.ok("User registered successfully");
     }
 
     @PostMapping("/signin")
