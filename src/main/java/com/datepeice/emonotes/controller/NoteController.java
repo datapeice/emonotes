@@ -1,6 +1,7 @@
 package com.datepeice.emonotes.controller;
 
 import com.datepeice.emonotes.dto.NoteBody;
+import com.datepeice.emonotes.dto.NotePreview;
 import com.datepeice.emonotes.entity.Note;
 import com.datepeice.emonotes.entity.User;
 import com.datepeice.emonotes.exception.AccessDeniedException;
@@ -11,6 +12,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/notes")
@@ -31,8 +33,30 @@ public class NoteController {
     }
 
     @GetMapping("/all")
-    public List<Note> getAllNotes(@AuthenticationPrincipal User user) {
-        return noteRepository.findAllByUser(user);
+    public List<NotePreview> getAllNotes(@AuthenticationPrincipal User user) {
+        return noteRepository.findAllByUser(user).stream()
+                .map(note -> new NotePreview    (
+                        note.getId(),
+                        note.getTitle(),
+                        truncateContent(note.getContent(), 200),
+                        note.getCreatedAt()
+                ))
+                .collect(Collectors.toList());
+    }
+
+    private String truncateContent(String content, int maxLength) {
+        if (content == null || content.length() <= maxLength) {
+            return content;
+        }
+        return content.substring(0, maxLength) + "...";
+    }
+
+    @GetMapping("/get/{id}")
+    public ResponseEntity<Note> getNoteById(@PathVariable Long id, @AuthenticationPrincipal User user) {
+        return noteRepository.findById(id)
+                .filter(note -> note.getUser().getId().equals(user.getId())) // Проверка владельца
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.status(403).build());
     }
 
     @PutMapping("/update/{id}")
