@@ -1,9 +1,13 @@
 # EmoNotes
 ## EmoNotes is a secure, high-performance note-taking application designed for self-hosting. It features a robust Spring Boot backend, a modern React frontend, and a multi-layered security system including Multi-Factor Authentication (TOTP).
-<div> <img src="screens/img.png" alt="Desktop Dashboard View" width="100%" /> </div>
+<div>
+  <img src="screens/img.png" alt="Desktop Dashboard View" width="100%" />
+</div>
 
-<div style="display: flex; gap: 10px; margin-top: 10px;"> <img src="screens/img_1.png" alt="Mobile View 1" width="49%" /> <img src="screens/img_2.png" alt="Mobile View 2" width="49%" /> </div>
-
+<div style="display: flex; justify-content: center; gap: 20px; margin-top: 15px;">
+  <img src="screens/img_1.png" alt="Mobile View 1" width="30%" />
+  <img src="screens/img_2.png" alt="Mobile View 2" width="30%" />
+</div>
 ## Technologies
 - Backend: Java 21 with Spring Boot 3.5.
 - Security: Spring Security, JWT (JSON Web Tokens), BCrypt password hashing.
@@ -49,7 +53,10 @@ Setup Instructions
 If you forget your password, you can reset it by providing your username and the current 6-digit code from your Google Authenticator app.
 
 Project Structure
-/src: Spring Boot backend source code.
-/frontend: React frontend source code.
-/nginx: Nginx configuration for request routing.
-docker-compose.yml: Container orchestration for the entire stack.
+* /src: Spring Boot backend source code.
+* /frontend: React frontend source code.
+* /nginx: Nginx configuration for request routing.
+* docker-compose.yml: Container orchestration for the entire stack.
+
+
+Developed by @datapeice <3
