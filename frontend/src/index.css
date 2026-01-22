@@ -1,0 +1,117 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Material You 3-ish Baseline Colors (Violet/Purple focused for "Expressive") */
+  --md-sys-color-primary: 103 80 164;
+  --md-sys-color-on-primary: 255 255 255;
+  --md-sys-color-primary-container: 234 221 255;
+  --md-sys-color-on-primary-container: 33 0 93;
+
+  --md-sys-color-secondary: 98 91 113;
+  --md-sys-color-on-secondary: 255 255 255;
+  --md-sys-color-secondary-container: 232 222 248;
+  --md-sys-color-on-secondary-container: 29 25 43;
+
+  --md-sys-color-tertiary: 125 82 96;
+  --md-sys-color-on-tertiary: 255 255 255;
+  --md-sys-color-tertiary-container: 255 216 228;
+  --md-sys-color-on-tertiary-container: 49 17 29;
+
+  --md-sys-color-background: 255 251 254;
+  --md-sys-color-on-background: 28 27 31;
+
+  --md-sys-color-surface: 255 251 254;
+  --md-sys-color-on-surface: 28 27 31;
+  --md-sys-color-surface-variant: 231 224 236;
+  --md-sys-color-on-surface-variant: 73 69 79;
+
+  --md-sys-color-outline: 121 116 126;
+
+  /* Elevation/Shadows */
+  --md-sys-elevation-1: 0px 1px 2px 0px rgba(0, 0, 0, 0.3), 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
+  --md-sys-elevation-2: 0px 1px 2px 0px rgba(0, 0, 0, 0.3), 0px 2px 6px 2px rgba(0, 0, 0, 0.15);
+  --md-sys-elevation-3: 0px 4px 8px 3px rgba(0, 0, 0, 0.15), 0px 1px 3px 0px rgba(0, 0, 0, 0.3);
+}
+
+.dark {
+  --md-sys-color-primary: 208 188 255;
+  --md-sys-color-on-primary: 56 30 114;
+  --md-sys-color-primary-container: 79 55 139;
+  --md-sys-color-on-primary-container: 234 221 255;
+
+  --md-sys-color-secondary: 204 194 220;
+  --md-sys-color-on-secondary: 51 45 65;
+  --md-sys-color-secondary-container: 74 68 88;
+  --md-sys-color-on-secondary-container: 232 222 248;
+
+  --md-sys-color-tertiary: 239 184 200;
+  --md-sys-color-on-tertiary: 73 37 50;
+  --md-sys-color-tertiary-container: 99 59 72;
+  --md-sys-color-on-tertiary-container: 255 216 228;
+
+  --md-sys-color-background: 28 27 31;
+  --md-sys-color-on-background: 230 225 229;
+
+  --md-sys-color-surface: 28 27 31;
+  --md-sys-color-on-surface: 230 225 229;
+  --md-sys-color-surface-variant: 73 69 79;
+  --md-sys-color-on-surface-variant: 202 196 208;
+
+  --md-sys-color-outline: 147 143 153;
+}
+
+@layer base {
+  body {
+    @apply bg-background text-on-background transition-colors duration-300;
+    font-family: 'Roboto', 'Inter', system-ui, sans-serif;
+  }
+
+  /* Modern/Material You Scrollbar Styles */
+  ::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-surface-variant/60 border-[3px] border-solid border-transparent bg-clip-content rounded-full;
+    /* This creates the floating pill effect */
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-surface-variant;
+  }
+
+  /* For dark mode specific adjustments if needed, though the classes above handle it via variables */
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-primary text-on-primary rounded-full px-6 py-2.5 font-medium transition-transform active:scale-95 shadow-sm hover:shadow-md flex items-center justify-center gap-2;
+  }
+
+  .btn-secondary {
+    @apply bg-secondary-container text-on-secondary-container rounded-full px-6 py-2.5 font-medium transition-transform active:scale-95 hover:shadow-sm flex items-center justify-center gap-2;
+  }
+
+  .btn-tonal {
+    @apply bg-secondary-container text-on-secondary-container hover:brightness-95;
+  }
+
+  .btn-text {
+    @apply text-primary hover:bg-primary/10 rounded-full px-4 py-2;
+  }
+
+  .input-field {
+    @apply bg-surface-variant/30 border border-outline/50 rounded-lg px-4 py-3 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all w-full text-on-surface;
+  }
+
+  .card {
+    @apply bg-surface-variant/30 border border-outline/10 rounded-3xl p-6 shadow-sm hover:shadow-md transition-shadow duration-300 break-inside-avoid mb-4;
+  }
+}
