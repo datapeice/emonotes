@@ -5,5 +5,10 @@
 *.js linguist-vendored=false
 
 *.css linguist-detectable=false
+*.jsx linguist-detectable=false
+*.jsx linguist-detectable=false
+*.html linguist-detectable=false
+
+
 
 frontend/node_modules/* linguist-vendored
