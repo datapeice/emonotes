@@ -1,13 +1,16 @@
 # EmoNotes
 ## EmoNotes is a secure, high-performance note-taking application designed for self-hosting. It features a robust Spring Boot backend, a modern React frontend, and a multi-layered security system including Multi-Factor Authentication (TOTP).
-<div>
-  <img src="screens/img.png" alt="Desktop Dashboard View" width="100%" />
-</div>
 
-<div style="display: flex; justify-content: center; gap: 20px; margin-top: 15px;">
-  <img src="screens/img_1.png" alt="Mobile View 1" width="30%" />
-  <img src="screens/img_2.png" alt="Mobile View 2" width="30%" />
-</div>
+<p align="center">
+  <img src="screens/img.png" alt="Desktop Dashboard View" width="100%">
+</p>
+
+<p align="center">
+  <img src="screens/img_1.png" alt="Mobile View 1" width="30%">
+  &nbsp;&nbsp;&nbsp;&nbsp;
+  <img src="screens/img_2.png" alt="Mobile View 2" width="30%">
+</p>
+
 ## Technologies
 - Backend: Java 21 with Spring Boot 3.5.
 - Security: Spring Security, JWT (JSON Web Tokens), BCrypt password hashing.
