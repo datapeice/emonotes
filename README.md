@@ -55,11 +55,5 @@ Setup Instructions
 ### Password Recovery
 If you forget your password, you can reset it by providing your username and the current 6-digit code from your Google Authenticator app.
 
-Project Structure
-* /src: Spring Boot backend source code.
-* /frontend: React frontend source code.
-* /nginx: Nginx configuration for request routing.
-* docker-compose.yml: Container orchestration for the entire stack.
-
 
 Developed by @datapeice <3
